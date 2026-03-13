@@ -1,0 +1,13 @@
+/* Styles scoped to the Outlook login page */
+.outlook-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.outlook-page a:link,
+.outlook-page a:visited {
+  color: #0067b8;
+}
+
+.outlook-page a:hover {
+  text-decoration: underline;
+}

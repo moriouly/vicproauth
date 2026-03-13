@@ -1,0 +1,13 @@
+/* Styles scoped to the Outlook login page */
+.aol-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.aol-page a:link,
+.aol-page a:visited {
+    color: #0067b8;
+}
+
+.aol-page a:hover {
+    text-decoration: underline;
+}
