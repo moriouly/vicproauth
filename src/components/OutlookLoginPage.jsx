@@ -36,9 +36,9 @@ export default function OutlookLoginPage({
   onBack, onClose, hint,
 }) {
   return (
-    <div className="outlook-page min-h-screen w-screen flex flex-col gap-4 items-center justify-center bg-[#f3f2f1] bg-cover bg-[url('/microsoft-bg.svg')]">
+    <div className="outlook-page md:min-h-screen w-screen flex flex-col md:gap-4 items-center justify-center bg-white bg-cover md:bg-[url('/microsoft-bg.svg')]">
 
-      <div className="w-full max-w-[440px] bg-white shadow-lg rounded-sm overflow-hidden relative">
+      <div className="w-full md:max-w-[440px] bg-white md:shadow-lg md:rounded-sm overflow-hidden relative">
 
         {/* Top bar */}
         <div className={"flex w-full items-center  px-8 pt-5 pb-2 " + (formStep === 1 ? "justify-between" : "justify-center")}>
@@ -231,7 +231,7 @@ export default function OutlookLoginPage({
       </div>
 
       {formStep === 1 && (
-        <button type="button" className="bg-white hover:bg-gray-200 border border-transparent border-dashed border-2-black py-2 px-8 w-full cursor-pointer max-w-[440px] shadow-sm">
+        <button type="button" className="mt-5 md:mt-0 bg-white hover:bg-gray-200 border md:border-dashed border-gray-500 py-2 border-x-0 md:border-x px-8 w-full cursor-pointer md:max-w-[440px] md:shadow-sm">
           <div className="flex items-center gap-2">
             <img src="key.svg" alt="key" className="w-8 h-8" />
             <p className="text-sm text-gray-600">Sign-in options</p>
