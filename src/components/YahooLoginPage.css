@@ -1,0 +1,13 @@
+/* Styles scoped to the Outlook login page */
+.yahoo-page {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.yahoo-page a:link,
+.yahoo-page a:visited {
+    color: #0067b8;
+}
+
+.yahoo-page a:hover {
+    text-decoration: underline;
+}

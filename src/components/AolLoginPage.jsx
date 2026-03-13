@@ -23,7 +23,7 @@ export default function AolLoginPage({
   onBack, onClose, hint,
 }) {
   return (
-    <div className="min-h-screen w-screen bg-white font-sans flex flex-col relative text-[#26282a]">
+    <div className="aol-page min-h-screen w-screen bg-white font-sans flex flex-col relative text-[#26282a]">
       {/* Header */}
       <div className="hidden md:flex justify-center md:justify-between items-center px-14 py-6 w-full">
         <img src="aol-logo-black-v1.png" alt="AOL" className="w-auto h-9" />
