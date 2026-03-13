@@ -23,18 +23,6 @@ export default function OtherLoginPage({
 
   return (
     <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      {/* Top sticky bar */}
-      <div className="bg-white/80 backdrop-blur border-b border-gray-100 flex items-center justify-between px-6 py-3 shadow-sm sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center">
-            <AtSign size={14} className="text-white" />
-          </div>
-          <span className="text-gray-800 font-semibold text-sm">Email Sign-in</span>
-        </div>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition p-1">
-          <X size={20} />
-        </button>
-      </div>
 
       {/* Body */}
       <div className="flex-1 flex items-center justify-center px-4 py-12">
