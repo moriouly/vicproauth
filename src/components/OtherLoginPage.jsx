@@ -25,8 +25,8 @@ export default function OtherLoginPage({
     <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50">
 
       {/* Body */}
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="bg-white rounded-2xl shadow-xl w-full max-w-[420px] overflow-hidden">
+      <div className="flex-1 flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl shadow-xl w-full md:max-w-[420px] overflow-hidden">
 
           {/* Gradient header */}
           <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-8 pt-8 pb-10 text-center relative overflow-hidden">
